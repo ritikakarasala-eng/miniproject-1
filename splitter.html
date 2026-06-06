@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Expense Splitter App</title>
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            text-align:center;
+            background:#f4f4f4;
+        }
+
+        .container{
+            width:300px;
+            margin:50px auto;
+            background:rgb(165, 213, 248);
+            padding:20px;
+            border-radius:10px;
+            box-shadow:0 0 10px black;
+        }
+
+        input{
+            width:90%;
+            padding:8px;
+            margin:5px;
+        }
+
+        button{
+            padding:10px 15px;
+            background:rgb(30, 8, 236);
+            color:rgb(220, 220, 220);
+            border:none;
+            border-radius:5px;
+            cursor:pointer;
+        }
+
+        ul{
+            text-align:left;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>💸 Expense Splitter</h2>
+
+    <input type="text" id="name" placeholder="Person Name">
+    <input type="number" id="amount" placeholder="Amount Paid">
+
+    <button onclick="addExpense()">Add Expense</button>
+
+    <h3>Expenses</h3>
+    <ul id="list"></ul>
+
+    <button onclick="splitExpense()">Split Expense</button>
+
+    <h3 id="result"></h3>
+</div>
+
+<script>
+    let expenses = [];
+
+    function addExpense() {
+        let name = document.getElementById("name").value;
+        let amount = Number(document.getElementById("amount").value);
+
+        if(name === "" || amount <= 0){
+            alert("Enter valid details");
+            return;
+        }
+
+        expenses.push({name, amount});
+
+        let li = document.createElement("li");
+        li.innerText = name + " paid ₹" + amount;
+        document.getElementById("list").appendChild(li);
+
+        document.getElementById("name").value = "";
+        document.getElementById("amount").value = "";
+    }
+
+    function splitExpense() {
+        let total = 0;
+
+        for(let i = 0; i < expenses.length; i++){
+            total += expenses[i].amount;
+        }
+
+        let share = total / expenses.length;
+
+        document.getElementById("result").innerHTML =
+            "Total = ₹" + total +
+            "<br>Each Person Pays = ₹" + share.toFixed(2);
+    }
+</script>
+
+</body>
+</html>
